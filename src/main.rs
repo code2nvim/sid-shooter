@@ -1,6 +1,6 @@
-use sid::*;
-
 mod sid;
+
+use sid::*;
 
 fn main() {
     App::new()
@@ -19,4 +19,3 @@ fn main() {
         ))
         .run();
 }
-

@@ -1,17 +1,17 @@
-use bevy::prelude::*;
+use crate::sid::*;
 
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, setup_player);
+        app.add_systems(Startup, spawn_player);
     }
 }
 
 #[derive(Component)]
 struct Player;
 
-pub fn setup_player(
+fn spawn_player(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,

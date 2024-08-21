@@ -1,17 +1,17 @@
-use bevy::prelude::*;
+use crate::sid::*;
 
 pub struct ScenePlugin;
 
 impl Plugin for ScenePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, setup_scene);
+        app.add_systems(Startup, spawn_scene);
     }
 }
 
 #[derive(Component)]
-struct Scene;
+struct Ground;
 
-pub fn setup_scene(
+fn spawn_scene(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -22,6 +22,6 @@ pub fn setup_scene(
             material: materials.add(Color::srgb(0.0, 1.0, 0.0)),
             ..default()
         },
-        Scene,
+        Ground,
     ));
 }
