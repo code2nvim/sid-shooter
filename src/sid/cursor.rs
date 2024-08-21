@@ -18,8 +18,8 @@ fn update_cursor(
     windows: Query<&Window>,
     mut cursor: ResMut<Cursor>,
 ) {
-    let (camera, transform) = camera.single();
     let ground = ground.single();
+    let (camera, transform) = camera.single();
     let Some(position) = windows.single().cursor_position() else {
         return;
     };
@@ -31,16 +31,16 @@ fn update_cursor(
     else {
         return;
     };
-    let point = ray.get_point(distance);
-    cursor.0 = point;
+    cursor.0 = ray.get_point(distance);
 }
 
-fn draw_cursor(
-    ground: Query<&Transform, With<Ground>>,
-    cursor: Res<Cursor>,
-    mut gizmos: Gizmos,
-) {
+fn draw_cursor(cursor: Res<Cursor>, ground: Query<&Transform, With<Ground>>, mut gizmos: Gizmos) {
+    let cursor = cursor.0;
     let ground = ground.single();
-    let position = cursor.0;
-    gizmos.circle(position + ground.up() * 0.01, ground.up(), 0.2, Color::WHITE);
+    gizmos.circle(
+        cursor + ground.up() * 0.01,
+        ground.up(),
+        0.3,
+        bevy::color::palettes::css::DARK_RED
+    );
 }
