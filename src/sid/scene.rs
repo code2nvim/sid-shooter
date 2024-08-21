@@ -4,14 +4,14 @@ pub struct ScenePlugin;
 
 impl Plugin for ScenePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_scene);
+        app.add_systems(Startup, (spawn_ground, spawn_light));
     }
 }
 
 #[derive(Component)]
-struct Ground;
+pub struct Ground;
 
-fn spawn_scene(
+fn spawn_ground(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -24,4 +24,17 @@ fn spawn_scene(
         },
         Ground,
     ));
+}
+
+#[allow(unused)]
+fn spawn_light(mut commands: Commands) {
+    commands.spawn(PointLightBundle {
+        transform: Transform::from_xyz(0.0, 20.0, 0.0),
+        point_light: PointLight {
+            range: 1500.0,
+            shadows_enabled: true,
+            ..default()
+        },
+        ..default()
+    });
 }
