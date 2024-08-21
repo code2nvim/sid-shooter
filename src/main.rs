@@ -8,7 +8,7 @@ fn main() {
         .add_plugins((
             DefaultPlugins.set(WindowPlugin {
                 primary_window: Some(Window {
-                    title: "sid_shooter".into(),
+                    title: "sid-shooter".into(),
                     ..default()
                 }),
                 ..default()
