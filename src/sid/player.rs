@@ -66,10 +66,10 @@ fn move_player(
     }
 }
 
-fn rotate_player(cursor: Query<&Cursor>, mut query: Query<&mut Transform, With<Player>>) {
+fn rotate_player(cursor: Res<Cursor>, mut query: Query<&mut Transform, With<Player>>) {
     let mut transform = query.get_single_mut().unwrap();
-    let cursor = cursor.get_single().unwrap();
+    let cursor = cursor.0;
     let player = transform.translation;
-    let direction = (cursor.0 - player).normalize();
+    let direction = (cursor - player).normalize();
     transform.rotation = Quat::from_rotation_y(direction.x.atan2(direction.z));
 }
