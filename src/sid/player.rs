@@ -4,8 +4,8 @@ pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_player);
-        app.add_systems(Update, (update_direction, move_player));
+        app.add_systems(Startup, spawn_player)
+            .add_systems(Update, (update_direction, move_player, rotate_player));
     }
 }
 
@@ -64,4 +64,12 @@ fn move_player(
         let movement = direction.0.normalize_or_zero() * speed.0 * time.delta_seconds();
         transform.translation += movement;
     }
+}
+
+fn rotate_player(cursor: Query<&Cursor>, mut query: Query<&mut Transform, With<Player>>) {
+    let mut transform = query.get_single_mut().unwrap();
+    let cursor = cursor.get_single().unwrap();
+    let player = transform.translation;
+    let direction = (cursor.0 - player).normalize();
+    transform.rotation = Quat::from_rotation_y(direction.x.atan2(direction.z));
 }

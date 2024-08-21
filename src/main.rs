@@ -14,6 +14,7 @@ fn main() {
                 ..default()
             }),
             CameraPlugin,
+            CursorPlugin,
             PlayerPlugin,
             ScenePlugin,
         ))
