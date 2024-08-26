@@ -25,33 +25,30 @@ fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..default()
         },
         Player,
-        Speed(15.0),
-        Direction((0.0, 0.0, 9.0).into()),
+        Speed(30.0),
+        Direction((0.0, 0.0, 0.0).into()),
     ));
 }
 
 fn update_direction(
     keys: Res<ButtonInput<KeyCode>>,
-    camera: Query<&Transform, With<Camera3d>>,
     mut direction: Query<&mut Direction, With<Player>>,
 ) {
-    let camera = camera.get_single().unwrap();
     let mut direction = direction.get_single_mut().unwrap();
     direction.0 = {
         let mut direction = Vec3::ZERO;
         if keys.pressed(KeyCode::KeyW) {
-            direction += *camera.forward();
-        }
-        if keys.pressed(KeyCode::KeyS) {
-            direction += *camera.back();
+            direction += Vec3::new(15.0, 0.0, 0.0);
         }
         if keys.pressed(KeyCode::KeyA) {
-            direction += *camera.left();
+            direction += Vec3::new(0.0, 0.0, -15.0);
+        }
+        if keys.pressed(KeyCode::KeyS) {
+            direction += Vec3::new(-15.0, 0.0, 0.0);
         }
         if keys.pressed(KeyCode::KeyD) {
-            direction += *camera.right();
+            direction += Vec3::new(0.0, 0.0, 15.0);
         }
-        direction.y = 0.0;
         direction
     };
 }

@@ -18,7 +18,7 @@ fn spawn_ground(
 ) {
     commands.spawn((
         PbrBundle {
-            mesh: meshes.add(Plane3d::default().mesh().size(30.0, 30.0)),
+            mesh: meshes.add(Plane3d::default().mesh().size(90.0, 30.0)),
             material: materials.add(Color::srgb(0.0, 1.0, 0.0)),
             ..default()
         },
