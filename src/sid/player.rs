@@ -13,7 +13,7 @@ impl Plugin for PlayerPlugin {
 struct Player;
 
 #[derive(Component)]
-struct Direction(Vec3);
+struct KeyDirection(Vec3);
 
 #[derive(Component)]
 struct Speed(f32);
@@ -26,13 +26,13 @@ fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
         },
         Player,
         Speed(30.0),
-        Direction((0.0, 0.0, 0.0).into()),
+        KeyDirection((0.0, 0.0, 0.0).into()),
     ));
 }
 
 fn update_direction(
+    mut direction: Query<&mut KeyDirection, With<Player>>,
     keys: Res<ButtonInput<KeyCode>>,
-    mut direction: Query<&mut Direction, With<Player>>,
 ) {
     let mut direction = direction.get_single_mut().unwrap();
     direction.0 = {
@@ -54,8 +54,8 @@ fn update_direction(
 }
 
 fn move_player(
+    mut query: Query<(&mut Transform, &KeyDirection, &Speed), With<Player>>,
     time: Res<Time>,
-    mut query: Query<(&mut Transform, &Direction, &Speed), With<Player>>,
 ) {
     for (mut transform, direction, speed) in query.iter_mut() {
         let movement = direction.0.normalize_or_zero() * speed.0 * time.delta_seconds();
@@ -63,7 +63,7 @@ fn move_player(
     }
 }
 
-fn rotate_player(cursor: Res<Cursor>, mut query: Query<&mut Transform, With<Player>>) {
+fn rotate_player(mut query: Query<&mut Transform, With<Player>>, cursor: Res<Cursor>) {
     let mut transform = query.get_single_mut().unwrap();
     let cursor = cursor.0;
     let player = transform.translation;

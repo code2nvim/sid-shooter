@@ -15,12 +15,12 @@ pub struct Cursor(pub Vec3);
 fn update_cursor(
     camera: Query<(&Camera, &GlobalTransform)>,
     ground: Query<&GlobalTransform, With<Ground>>,
-    windows: Query<&Window>,
+    window: Query<&Window>,
     mut cursor: ResMut<Cursor>,
 ) {
     let ground = ground.single();
     let (camera, transform) = camera.single();
-    let Some(position) = windows.single().cursor_position() else {
+    let Some(position) = window.single().cursor_position() else {
         return;
     };
     let Some(ray) = camera.viewport_to_world(transform, position) else {
@@ -34,13 +34,13 @@ fn update_cursor(
     cursor.0 = ray.get_point(distance);
 }
 
-fn draw_cursor(cursor: Res<Cursor>, ground: Query<&Transform, With<Ground>>, mut gizmos: Gizmos) {
+fn draw_cursor(mut gizmos: Gizmos, cursor: Res<Cursor>, ground: Query<&Transform, With<Ground>>) {
     let cursor = cursor.0;
     let ground = ground.single();
     gizmos.circle(
         cursor + ground.up() * 0.01,
         ground.up(),
         0.3,
-        bevy::color::palettes::css::DARK_RED
+        Color::srgb(0.545, 0.0, 0.0),
     );
 }
