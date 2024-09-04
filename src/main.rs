@@ -12,6 +12,6 @@ fn main() {
             }),
             ..default()
         }))
-        .add_plugins((CameraPlugin, CursorPlugin, PlayerPlugin, ScenePlugin))
+        .add_plugins(PlayingPlugin)
         .run();
 }

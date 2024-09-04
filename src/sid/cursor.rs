@@ -1,18 +1,9 @@
 use crate::sid::*;
 
-pub struct CursorPlugin;
-
-impl Plugin for CursorPlugin {
-    fn build(&self, app: &mut App) {
-        app.insert_resource(Cursor((0.0, 0.0, 0.0).into()))
-            .add_systems(Update, (update_cursor, draw_cursor).chain());
-    }
-}
-
-#[derive(Resource)]
+#[derive(Default, Resource)]
 pub struct Cursor(pub Vec3);
 
-fn update_cursor(
+pub fn update_cursor(
     camera: Query<(&Camera, &GlobalTransform)>,
     ground: Query<&GlobalTransform, With<Ground>>,
     window: Query<&Window>,
@@ -34,7 +25,11 @@ fn update_cursor(
     cursor.0 = ray.get_point(distance);
 }
 
-fn draw_cursor(mut gizmos: Gizmos, cursor: Res<Cursor>, ground: Query<&Transform, With<Ground>>) {
+pub fn draw_cursor(
+    mut gizmos: Gizmos,
+    cursor: Res<Cursor>,
+    ground: Query<&Transform, With<Ground>>,
+) {
     let cursor = cursor.0;
     let ground = ground.single();
     gizmos.circle(

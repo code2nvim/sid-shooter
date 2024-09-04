@@ -4,21 +4,24 @@ pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_player)
-            .add_systems(Update, (update_direction, move_player, rotate_player));
+        app.add_systems(OnEnter(GameState::Playing), spawn_player)
+            .add_systems(
+                Update,
+                (update_direction, move_player, rotate_player).run_if(in_state(GameState::Playing)),
+            );
     }
 }
 
 #[derive(Component)]
-struct Player;
+pub struct Player;
 
 #[derive(Component)]
-struct KeyDirection(Vec3);
+pub struct KeyDirection(Vec3);
 
 #[derive(Component)]
-struct Speed(f32);
+pub struct Speed(f32);
 
-fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
+pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
         SceneBundle {
             scene: asset_server.load(GltfAssetLabel::Scene(0).from_asset("player.glb")),
@@ -30,7 +33,7 @@ fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     ));
 }
 
-fn update_direction(
+pub fn update_direction(
     mut direction: Query<&mut KeyDirection, With<Player>>,
     keys: Res<ButtonInput<KeyCode>>,
 ) {
@@ -53,7 +56,7 @@ fn update_direction(
     };
 }
 
-fn move_player(
+pub fn move_player(
     mut query: Query<(&mut Transform, &KeyDirection, &Speed), With<Player>>,
     time: Res<Time>,
 ) {
@@ -63,7 +66,7 @@ fn move_player(
     }
 }
 
-fn rotate_player(mut query: Query<&mut Transform, With<Player>>, cursor: Res<Cursor>) {
+pub fn rotate_player(mut query: Query<&mut Transform, With<Player>>, cursor: Res<Cursor>) {
     let mut transform = query.get_single_mut().unwrap();
     let cursor = cursor.0;
     let player = transform.translation;
