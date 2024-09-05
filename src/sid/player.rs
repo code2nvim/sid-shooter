@@ -1,17 +1,5 @@
 use crate::sid::*;
 
-pub struct PlayerPlugin;
-
-impl Plugin for PlayerPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::Playing), spawn_player)
-            .add_systems(
-                Update,
-                (update_direction, move_player, rotate_player).run_if(in_state(GameState::Playing)),
-            );
-    }
-}
-
 #[derive(Component)]
 pub struct Player;
 
@@ -57,17 +45,17 @@ pub fn update_direction(
 }
 
 pub fn move_player(
-    mut query: Query<(&mut Transform, &KeyDirection, &Speed), With<Player>>,
+    mut player: Query<(&mut Transform, &KeyDirection, &Speed), With<Player>>,
     time: Res<Time>,
 ) {
-    for (mut transform, direction, speed) in query.iter_mut() {
+    for (mut transform, direction, speed) in player.iter_mut() {
         let movement = direction.0.normalize_or_zero() * speed.0 * time.delta_seconds();
         transform.translation += movement;
     }
 }
 
-pub fn rotate_player(mut query: Query<&mut Transform, With<Player>>, cursor: Res<Cursor>) {
-    let mut transform = query.get_single_mut().unwrap();
+pub fn rotate_player(mut player: Query<&mut Transform, With<Player>>, cursor: Res<Cursor>) {
+    let mut transform = player.get_single_mut().unwrap();
     let cursor = cursor.0;
     let player = transform.translation;
     let direction = (cursor - player).normalize();

@@ -6,6 +6,7 @@ impl Plugin for PlayingPlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<GameState>()
             .init_resource::<Cursor>()
+            .insert_resource(SpawnTimer(Timer::from_seconds(0.5, TimerMode::Repeating)))
             .add_systems(Startup, (spawn_camera, spawn_ground, spawn_light))
             .add_systems(Update, press_to_start)
             .add_systems(OnEnter(GameState::Playing), spawn_player)
@@ -14,6 +15,7 @@ impl Plugin for PlayingPlugin {
                 (
                     (update_cursor, draw_cursor).chain(),
                     (update_direction, move_player, rotate_player),
+                    (spawn_target),
                 )
                     .run_if(in_state(GameState::Playing)),
             );
