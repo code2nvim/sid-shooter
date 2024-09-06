@@ -6,9 +6,6 @@ pub struct Player;
 #[derive(Component)]
 pub struct KeyDirection(Vec3);
 
-#[derive(Component)]
-pub struct Speed(f32);
-
 pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
         SceneBundle {
@@ -16,7 +13,6 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..default()
         },
         Player,
-        Speed(30.0),
         KeyDirection((0.0, 0.0, 0.0).into()),
     ));
 }
@@ -29,27 +25,27 @@ pub fn update_direction(
     direction.0 = {
         let mut direction = Vec3::ZERO;
         if keys.pressed(KeyCode::KeyW) {
-            direction += Vec3::new(15.0, 0.0, 0.0);
+            direction += Vec3::new(0.0, 0.0, 1.0);
         }
         if keys.pressed(KeyCode::KeyA) {
-            direction += Vec3::new(0.0, 0.0, -15.0);
+            direction += Vec3::new(1.0, 0.0, 0.0);
         }
         if keys.pressed(KeyCode::KeyS) {
-            direction += Vec3::new(-15.0, 0.0, 0.0);
+            direction += Vec3::new(0.0, 0.0, -1.0);
         }
         if keys.pressed(KeyCode::KeyD) {
-            direction += Vec3::new(0.0, 0.0, 15.0);
+            direction += Vec3::new(-1.0, 0.0, 0.0);
         }
         direction
     };
 }
 
 pub fn move_player(
-    mut player: Query<(&mut Transform, &KeyDirection, &Speed), With<Player>>,
+    mut player: Query<(&mut Transform, &KeyDirection), With<Player>>,
     time: Res<Time>,
 ) {
-    for (mut transform, direction, speed) in player.iter_mut() {
-        let movement = direction.0.normalize_or_zero() * speed.0 * time.delta_seconds();
+    for (mut transform, direction) in player.iter_mut() {
+        let movement = direction.0.normalize_or_zero() * time.delta_seconds() * PLAYER_SPEED;
         transform.translation += movement;
     }
 }

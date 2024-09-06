@@ -9,7 +9,7 @@ pub struct Ground;
 pub fn spawn_camera(mut commands: Commands) {
     commands.spawn((
         Camera3dBundle {
-            transform: Transform::from_xyz(-25.0, 35.0, 0.0).looking_at(Vec3::ZERO, Vec3::Y),
+            transform: Transform::from_xyz(0.0, 35.0, -25.0).looking_at(Vec3::ZERO, Vec3::Y),
             ..default()
         },
         GameScene,
@@ -23,7 +23,7 @@ pub fn spawn_ground(
 ) {
     commands.spawn((
         PbrBundle {
-            mesh: meshes.add(Plane3d::default().mesh().size(90.0, 30.0)),
+            mesh: meshes.add(Plane3d::default().mesh().size(GROUND_WIDTH, GROUND_HEIGHT)),
             material: materials.add(Color::srgb(0.0, 1.0, 0.0)),
             ..default()
         },
