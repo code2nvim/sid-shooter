@@ -15,7 +15,7 @@ impl Plugin for PlayingPlugin {
                 (
                     (update_cursor, draw_cursor).chain(),
                     (update_direction, move_player, rotate_player),
-                    (spawn_target),
+                    (spawn_target, move_target),
                 )
                     .run_if(in_state(GameState::Playing)),
             );

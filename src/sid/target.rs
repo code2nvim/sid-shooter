@@ -7,7 +7,6 @@ pub struct Target;
 pub struct SpawnTimer(pub Timer);
 
 pub fn spawn_target(
-    cursor: Res<Cursor>,
     time: Res<Time>,
     mut timer: ResMut<SpawnTimer>,
     mut commands: Commands,
@@ -19,10 +18,18 @@ pub fn spawn_target(
             PbrBundle {
                 mesh: meshes.add(Sphere::new(0.5)),
                 material: materials.add(Color::srgb(0.0, 0.0, 0.0)),
-                transform: Transform::from_translation(cursor.0),
+                transform: Transform::from_translation((0.0, 0.0, 0.0).into()),
                 ..default()
             },
             Target,
         ));
+    }
+}
+
+pub fn move_target(mut player: Query<&mut Transform, With<Target>>, time: Res<Time>) {
+    for mut transform in player.iter_mut() {
+        let movement =
+            Vec3::new(0.0, 0.0, -1.0).normalize_or_zero() * time.delta_seconds() * PLAYER_SPEED;
+        transform.translation += movement;
     }
 }
