@@ -22,7 +22,7 @@ pub fn spawn_target(
                 ..default()
             },
             Target,
-            Speed(10.0),
+            Speed(TARGET_SPEED),
         ));
     }
 }
