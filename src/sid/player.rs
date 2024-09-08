@@ -3,9 +3,6 @@ use crate::sid::*;
 #[derive(Component)]
 pub struct Player;
 
-#[derive(Component)]
-pub struct KeyDirection(Vec3);
-
 pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
         SceneBundle {
@@ -13,12 +10,12 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..default()
         },
         Player,
-        KeyDirection((0.0, 0.0, 0.0).into()),
+        Movement((0.0, 0.0, 0.0).into()),
     ));
 }
 
 pub fn update_direction(
-    mut direction: Query<&mut KeyDirection, With<Player>>,
+    mut direction: Query<&mut Movement, With<Player>>,
     keys: Res<ButtonInput<KeyCode>>,
 ) {
     let mut direction = direction.get_single_mut().unwrap();
@@ -41,7 +38,7 @@ pub fn update_direction(
 }
 
 pub fn move_player(
-    mut player: Query<(&mut Transform, &KeyDirection), With<Player>>,
+    mut player: Query<(&mut Transform, &Movement), With<Player>>,
     time: Res<Time>,
 ) {
     for (mut transform, direction) in player.iter_mut() {

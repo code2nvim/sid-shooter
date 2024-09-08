@@ -22,14 +22,15 @@ pub fn spawn_target(
                 ..default()
             },
             Target,
+            Speed(10.0),
         ));
     }
 }
 
-pub fn move_target(mut player: Query<&mut Transform, With<Target>>, time: Res<Time>) {
-    for mut transform in player.iter_mut() {
+pub fn move_target(time: Res<Time>, mut targets: Query<(&mut Transform, &Speed), With<Target>>) {
+    for (mut transform, speed) in targets.iter_mut() {
         let movement =
-            Vec3::new(0.0, 0.0, -1.0).normalize_or_zero() * time.delta_seconds() * PLAYER_SPEED;
+            Vec3::new(0.0, 0.0, -1.0).normalize_or_zero() * time.delta_seconds() * speed.0;
         transform.translation += movement;
     }
 }
