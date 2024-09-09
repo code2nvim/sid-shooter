@@ -30,10 +30,14 @@ pub enum GameState {
 }
 
 pub fn press_to_start(
-    mut game_state: ResMut<NextState<GameState>>,
-    kerpress: Res<ButtonInput<KeyCode>>,
+    key: Res<ButtonInput<KeyCode>>,
+    current: Res<State<GameState>>,
+    mut next: ResMut<NextState<GameState>>,
 ) {
-    if kerpress.pressed(KeyCode::Space) {
-        game_state.set(GameState::Playing);
+    if key.pressed(KeyCode::Enter) {
+        next.set(match current.get() {
+            GameState::Menu => GameState::Playing,
+            GameState::Playing => GameState::Menu,
+        });
     }
 }
