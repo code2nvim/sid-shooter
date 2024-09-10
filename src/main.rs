@@ -12,6 +12,6 @@ fn main() {
             }),
             ..default()
         }))
-        .add_plugins(PlayingPlugin)
+        .add_plugins((GamePlugin, PlayingPlugin, MenuPlugin))
         .run();
 }
