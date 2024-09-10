@@ -8,7 +8,7 @@ impl Plugin for PlayingPlugin {
             .init_resource::<Cursor>()
             .insert_resource(SpawnTimer(Timer::from_seconds(0.5, TimerMode::Repeating)))
             .add_systems(Startup, (spawn_camera, spawn_ground, spawn_light))
-            .add_systems(Update, press_to_start)
+            .add_systems(Update, switch_state)
             .add_systems(OnEnter(GameState::Playing), spawn_player)
             .add_systems(
                 Update,
@@ -29,15 +29,18 @@ pub enum GameState {
     Playing,
 }
 
-pub fn press_to_start(
+pub fn switch_state(
     key: Res<ButtonInput<KeyCode>>,
-    current: Res<State<GameState>>,
+    // current: Res<State<GameState>>,
     mut next: ResMut<NextState<GameState>>,
 ) {
     if key.pressed(KeyCode::Enter) {
-        next.set(match current.get() {
-            GameState::Menu => GameState::Playing,
-            GameState::Playing => GameState::Menu,
-        });
+        /*
+                match current.get() {
+                    GameState::Menu => next.set(GameState::Playing),
+                    GameState::Playing => next.set(GameState::Menu),
+                }
+        */
+        next.set(GameState::Playing);
     }
 }

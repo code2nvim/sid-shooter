@@ -18,7 +18,7 @@ pub fn update_direction(
     mut direction: Query<&mut Movement, With<Player>>,
     keys: Res<ButtonInput<KeyCode>>,
 ) {
-    let mut direction = direction.get_single_mut().unwrap();
+    let mut direction = direction.get_single_mut().expect("update_direction......");
     direction.0 = {
         let mut direction = Vec3::ZERO;
         if keys.pressed(KeyCode::KeyW) {
@@ -37,18 +37,15 @@ pub fn update_direction(
     };
 }
 
-pub fn move_player(
-    mut player: Query<(&mut Transform, &Movement), With<Player>>,
-    time: Res<Time>,
-) {
+pub fn move_player(mut player: Query<(&mut Transform, &Movement), With<Player>>, time: Res<Time>) {
     for (mut transform, direction) in player.iter_mut() {
         let movement = direction.0.normalize_or_zero() * time.delta_seconds() * PLAYER_SPEED;
         transform.translation += movement;
     }
 }
 
-pub fn rotate_player(mut player: Query<&mut Transform, With<Player>>, cursor: Res<Cursor>) {
-    let mut transform = player.get_single_mut().unwrap();
+pub fn rotate_player(cursor: Res<Cursor>, mut player: Query<&mut Transform, With<Player>>) {
+    let mut transform = player.get_single_mut().expect("rotate_player......");
     let cursor = cursor.0;
     let player = transform.translation;
     let direction = (cursor - player).normalize();
