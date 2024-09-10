@@ -31,16 +31,13 @@ pub enum GameState {
 
 pub fn switch_state(
     key: Res<ButtonInput<KeyCode>>,
-    // current: Res<State<GameState>>,
+    current: Res<State<GameState>>,
     mut next: ResMut<NextState<GameState>>,
 ) {
     if key.pressed(KeyCode::Enter) {
-        /*
-                match current.get() {
-                    GameState::Menu => next.set(GameState::Playing),
-                    GameState::Playing => next.set(GameState::Menu),
-                }
-        */
-        next.set(GameState::Playing);
+        next.set(match &current.get() {
+            GameState::Menu => GameState::Playing,
+            GameState::Playing => GameState::Menu,
+        });
     }
 }
