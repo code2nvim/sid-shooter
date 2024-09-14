@@ -8,16 +8,25 @@ pub fn spawn_player(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    commands.spawn((
-        PbrBundle {
-            mesh: meshes.add(Sphere::new(1.0)),
-            material: materials.add(Color::srgb(0.5, 0.5, 0.5)),
-            transform: Transform::from_xyz(0.0, 1.0, 0.0),
-            ..default()
-        },
-        Player,
-        Movement((0.0, 0.0, 0.0).into()),
-    ));
+    commands
+        .spawn((
+            PbrBundle {
+                mesh: meshes.add(Sphere::new(1.0)),
+                material: materials.add(Color::srgb(0.5, 0.5, 0.5)),
+                transform: Transform::from_xyz(0.0, 1.0, 0.0),
+                ..default()
+            },
+            Player,
+            Movement((0.0, 0.0, 0.0).into()),
+        ))
+        .with_children(|children| {
+            children.spawn(PbrBundle {
+                mesh: meshes.add(Cuboid::new(1.6, 0.8, 0.1)),
+                material: materials.add(Color::srgb(1.0, 0.0, 0.0)),
+                transform: Transform::from_xyz(0.0, 0.4, 0.8),
+                ..default()
+            });
+        });
 }
 
 pub fn update_direction(
