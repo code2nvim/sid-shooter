@@ -3,10 +3,16 @@ use crate::sid::*;
 #[derive(Component)]
 pub struct Player;
 
-pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
+pub fn spawn_player(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+) {
     commands.spawn((
-        SceneBundle {
-            scene: asset_server.load(GltfAssetLabel::Scene(0).from_asset("player.glb")),
+        PbrBundle {
+            mesh: meshes.add(Sphere::new(1.0)),
+            material: materials.add(Color::srgb(0.5, 0.5, 0.5)),
+            transform: Transform::from_xyz(0.0, 1.0, 0.0),
             ..default()
         },
         Player,
