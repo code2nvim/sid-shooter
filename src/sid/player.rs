@@ -30,8 +30,8 @@ pub fn spawn_player(
 }
 
 pub fn update_direction(
-    mut direction: Query<&mut Movement, With<Player>>,
     keys: Res<ButtonInput<KeyCode>>,
+    mut direction: Query<&mut Movement, With<Player>>,
 ) {
     let Ok(mut direction) = direction.get_single_mut() else {
         return;
@@ -54,7 +54,7 @@ pub fn update_direction(
     };
 }
 
-pub fn move_player(mut player: Query<(&mut Transform, &Movement), With<Player>>, time: Res<Time>) {
+pub fn move_player(time: Res<Time>, mut player: Query<(&mut Transform, &Movement), With<Player>>) {
     let Ok((mut transform, direction)) = player.get_single_mut() else {
         return;
     };

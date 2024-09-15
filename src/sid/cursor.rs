@@ -17,12 +17,11 @@ pub fn update_cursor(
     let Some(ray) = camera.viewport_to_world(transform, position) else {
         return;
     };
-    let Some(distance) =
+    if let Some(distance) =
         ray.intersect_plane(ground.translation(), InfinitePlane3d::new(ground.up()))
-    else {
-        return;
+    {
+        cursor.0 = ray.get_point(distance);
     };
-    cursor.0 = ray.get_point(distance);
 }
 
 pub fn draw_cursor(
@@ -36,6 +35,6 @@ pub fn draw_cursor(
         cursor + ground.up() * 0.01,
         ground.up(),
         0.3,
-        Color::srgb(0.545, 0.0, 0.0),
+        Color::srgb(0.5, 0.0, 0.0),
     );
 }
