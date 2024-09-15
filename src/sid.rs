@@ -4,6 +4,7 @@ mod movement;
 mod target;
 mod player;
 mod scene;
+mod shoot;
 mod state;
 
 pub use bevy::prelude::*;
@@ -14,4 +15,5 @@ pub use movement::*;
 pub use target::*;
 pub use player::*;
 pub use scene::*;
+pub use shoot::*;
 pub use state::*;

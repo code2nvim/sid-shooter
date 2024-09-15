@@ -18,7 +18,7 @@ pub fn spawn_target(
             PbrBundle {
                 mesh: meshes.add(Sphere::new(0.5)),
                 material: materials.add(Color::srgb(0.0, 0.0, 0.0)),
-                transform: Transform::from_translation((0.0, 0.0, 0.0).into()),
+                transform: Transform::from_translation((0.0, 0.0, 30.0).into()),
                 ..default()
             },
             Target,
