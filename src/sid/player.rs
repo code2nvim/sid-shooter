@@ -58,7 +58,12 @@ pub fn move_player(time: Res<Time>, mut player: Query<(&mut Transform, &Movement
     let Ok((mut transform, direction)) = player.get_single_mut() else {
         return;
     };
-    let movement = direction.0.normalize_or_zero() * time.delta_seconds() * PLAYER_SPEED;
+    let mut movement = direction.0.normalize_or_zero() * time.delta_seconds() * PLAYER_SPEED;
+    if (transform.translation.x + movement.x) < -GROUND_WIDTH / 2.0
+        || (transform.translation.x + movement.x) > GROUND_WIDTH / 2.0
+    {
+        movement.x = 0.0;
+    }
     transform.translation += movement;
 }
 
