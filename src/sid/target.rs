@@ -16,7 +16,7 @@ pub fn spawn_target(
     if timer.0.tick(time.delta()).just_finished() {
         commands.spawn((
             PbrBundle {
-                mesh: meshes.add(Sphere::new(0.5)),
+                mesh: meshes.add(Sphere::new(TARGET_SIZE)),
                 material: materials.add(Color::srgb(0.0, 0.0, 0.0)),
                 transform: Transform::from_translation((0.0, 0.0, 30.0).into()),
                 ..default()
