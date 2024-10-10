@@ -20,7 +20,7 @@ impl Plugin for PlayingPlugin {
             .add_systems(
                 Update,
                 (
-                    (update_cursor, draw_cursor),
+                    (update_cursor, draw_cursor).chain(),
                     (update_direction, move_player, rotate_player),
                     (spawn_target, move_target),
                     (shoot),

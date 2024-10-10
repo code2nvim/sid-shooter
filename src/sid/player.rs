@@ -30,7 +30,7 @@ pub fn spawn_player(
 }
 
 pub fn update_direction(
-    keys: Res<ButtonInput<KeyCode>>,
+    key: Res<ButtonInput<KeyCode>>,
     mut direction: Query<&mut Movement, With<Player>>,
 ) {
     let Ok(mut direction) = direction.get_single_mut() else {
@@ -38,16 +38,16 @@ pub fn update_direction(
     };
     direction.0 = {
         let mut direction = Vec3::ZERO;
-        if keys.pressed(KeyCode::KeyW) {
+        if key.pressed(KeyCode::KeyW) {
             direction += Vec3::new(0.0, 0.0, 1.0);
         }
-        if keys.pressed(KeyCode::KeyA) {
+        if key.pressed(KeyCode::KeyA) {
             direction += Vec3::new(1.0, 0.0, 0.0);
         }
-        if keys.pressed(KeyCode::KeyS) {
+        if key.pressed(KeyCode::KeyS) {
             direction += Vec3::new(0.0, 0.0, -1.0);
         }
-        if keys.pressed(KeyCode::KeyD) {
+        if key.pressed(KeyCode::KeyD) {
             direction += Vec3::new(-1.0, 0.0, 0.0);
         }
         direction
