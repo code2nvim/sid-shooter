@@ -3,9 +3,6 @@ use crate::sid::*;
 #[derive(Component)]
 pub struct Target;
 
-#[derive(Resource)]
-pub struct SpawnTimer(pub Timer);
-
 pub fn spawn_target(
     time: Res<Time>,
     mut timer: ResMut<SpawnTimer>,
