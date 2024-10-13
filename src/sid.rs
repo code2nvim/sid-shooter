@@ -6,6 +6,7 @@ mod player;
 mod scene;
 mod shoot;
 mod state;
+mod wall;
 
 pub use bevy::prelude::*;
 
@@ -17,3 +18,4 @@ pub use player::*;
 pub use scene::*;
 pub use shoot::*;
 pub use state::*;
+pub use wall::*;
