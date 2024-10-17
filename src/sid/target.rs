@@ -5,7 +5,7 @@ pub struct Target;
 
 pub fn spawn_target(
     time: Res<Time>,
-    mut timer: ResMut<SpawnTimer>,
+    mut timer: ResMut<TargetTimer>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,

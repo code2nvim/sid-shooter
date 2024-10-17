@@ -7,4 +7,7 @@ pub struct Movement(pub Vec3);
 pub struct Speed(pub f32);
 
 #[derive(Resource)]
-pub struct SpawnTimer(pub Timer);
+pub struct TargetTimer(pub Timer);
+
+#[derive(Resource)]
+pub struct WallTimer(pub Timer);

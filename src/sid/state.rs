@@ -15,7 +15,8 @@ impl Plugin for GamePlugin {
 
 impl Plugin for PlayingPlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(SpawnTimer(Timer::from_seconds(0.5, TimerMode::Repeating)))
+        app.insert_resource(TargetTimer(Timer::from_seconds(0.5, TimerMode::Repeating)))
+            .insert_resource(WallTimer(Timer::from_seconds(0.5, TimerMode::Repeating)))
             .add_systems(OnEnter(GameState::Playing), spawn_player)
             .add_systems(
                 Update,
@@ -23,6 +24,7 @@ impl Plugin for PlayingPlugin {
                     (update_cursor, draw_cursor).chain(),
                     (update_direction, move_player, rotate_player),
                     (spawn_target, move_target),
+                    (spawn_wall, move_wall),
                     (shoot),
                 )
                     .run_if(in_state(GameState::Playing)),
