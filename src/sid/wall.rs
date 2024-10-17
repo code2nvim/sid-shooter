@@ -3,6 +3,9 @@ use crate::sid::*;
 #[derive(Component)]
 pub struct Wall;
 
+#[derive(Resource)]
+pub struct WallTimer(pub Timer);
+
 pub fn spawn_wall(
     time: Res<Time>,
     mut timer: ResMut<WallTimer>,
