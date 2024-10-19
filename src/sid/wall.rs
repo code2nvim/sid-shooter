@@ -16,13 +16,13 @@ pub fn spawn_wall(
     if timer.0.tick(time.delta()).just_finished() {
         commands.spawn((
             PbrBundle {
-                mesh: meshes.add(Cuboid::default()),
+                mesh: meshes.add(Cuboid::new(WALL_SIZE, WALL_SIZE, WALL_SIZE)),
                 material: materials.add(Color::srgb(0.0, 0.0, 0.0)),
-                transform: Transform::from_translation((0.0, 0.0, 30.0).into()),
+                transform: Transform::from_translation((0.0, WALL_SIZE, SPAWN_LINE).into()),
                 ..default()
             },
             Wall,
-            Speed(TARGET_SPEED),
+            Speed(WALL_SPEED),
         ));
     }
 }
