@@ -35,8 +35,9 @@ pub fn spawn_ground(
 pub fn spawn_light(mut commands: Commands) {
     commands.spawn((
         PointLightBundle {
-            transform: Transform::from_xyz(0.0, 20.0, 0.0),
+            transform: Transform::from_xyz(0.0, 40.0, -50.0),
             point_light: PointLight {
+                intensity: 10_000_000.0,
                 range: 1500.0,
                 shadows_enabled: true,
                 ..default()
