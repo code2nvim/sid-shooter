@@ -17,7 +17,7 @@ pub fn spawn_wall(
         commands.spawn((
             PbrBundle {
                 mesh: meshes.add(Cuboid::new(WALL_SIZE, WALL_SIZE, 0.001)),
-                material: materials.add(Color::srgba(0.0, 0.0, 0.0, 0.5)),
+                material: materials.add(Color::srgba(0.0, 0.0, 0.0, 0.8)),
                 transform: Transform::from_translation((0.0, WALL_SIZE / 2.0, SPAWN_LINE).into()),
                 ..default()
             },
