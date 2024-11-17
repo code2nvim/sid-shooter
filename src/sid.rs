@@ -6,9 +6,10 @@ mod player;
 mod scene;
 mod shoot;
 mod state;
-mod obstacle;
+mod wall;
 
 pub use bevy::prelude::*;
+pub use bevy_rapier3d::prelude::*;
 
 pub use cfg::*;
 pub use cursor::*;
@@ -18,4 +19,4 @@ pub use player::*;
 pub use scene::*;
 pub use shoot::*;
 pub use state::*;
-pub use obstacle::*;
+pub use wall::*;
